@@ -1,9 +1,11 @@
 var base_url = "https://api.football-data.org/v2/";
 var api_key = "9620be29cf5342b7b0762abb3142c6d4"
 
+// Table UCL
 const ucl_id = 2001
 
 const competitionUcl = `${base_url}competitions/${ucl_id}/standings?standingType=TOTAL`
+const clubList = `${base_url}competitions/${ucl_id}/teams`
 
 const fetchApi = url => {
   return fetch(url, {
@@ -27,9 +29,9 @@ const fetchApi = url => {
 
 function getAllStandings() {
   if ("caches" in window) {
-    caches.match(competitionUcl).then(function (response) {
+    caches.match(competitionUcl).then(response => {
       if (response) {
-        response.json().then(function (data) {
+        response.json().then(data => {
           console.log("Competition Data: " + data);
           showStanding(data);
         })
@@ -38,6 +40,7 @@ function getAllStandings() {
   }
   fetchApi(competitionUcl)
     .then(data => {
+      console.log(data)
       showStanding(data);
     })
     .catch(error => {
@@ -45,15 +48,13 @@ function getAllStandings() {
     })
 }
 
-
-function showStanding(data) {
+const showStanding = (data) => {
   let standings = "";
-
   let standingElement = document.getElementById("competitions");
   for (let i = 0; i < 8; i++) {
-    data.standings[i].table.forEach(function (standing) {
+    data.standings[i].table.map(standing => {
       standings += `
-          <tbody id="standings">
+          
                 <tr>
                   <td>${standing.position}</td>
                   <td><img src="${standing.team.crestUrl.replace(/^http:\/\//i, 'https://')}" width="30px" alt="badge"/>
@@ -68,15 +69,10 @@ function showStanding(data) {
                   <td>${standing.points}</td>
                   <td>${standing.form}</td>
                 </tr>
-          </tbody>
         `
-
     })
-    
   }
-    
-    
-    standingElement.innerHTML = ` 
+  standingElement.innerHTML = ` 
     <div class="card">
           <table class="striped responsive-table">
               <thead>
@@ -94,9 +90,55 @@ function showStanding(data) {
                     <th>Form</th>
                   </tr>
               </thead>
+              <tbody id="standings">
                   ${standings}
+              </tbody>
             </table>
       </div> 
       `
+}
 
+const getClubList = () => {
+  if ("caches" in window) {
+    caches.match(clubList).then(response => {
+      if (response) {
+        response.json().then(data => {
+          console.log("Club list: " + data);
+          showClubList(data);
+        })
+      }
+    })
+  }
+  fetchApi(clubList)
+  .then(data => {
+    console.log(data)
+    showClubList(data);
+  })
+  .catch(error => {
+    console.log(error)
+  })
+}
+
+const showClubList = (data) => {
+  let teams = "";
+  let teamsElement = document.getElementById("club");
+  data.teams.id.map(team => {
+      teams += `
+      <div class="card">
+        <a href="./club.html?id=${team.id}">
+          <div class="card-image waves-effect waves-block waves-light">
+            <img src="${team.crestUrl.replace(/^http:\/\//i, 'https://')}" />
+          </div>
+        </a>
+        <div class="card-content">
+          <span class="card-title center">${team.name}</span>
+          <p>${team.shortName}</p>
+          <p>${team.founded}</p>
+          <p>${team.clubColors}</p>
+          <p>${team.venue}</p>
+        </div>
+      </div>
+      `
+    })
+  teamsElement.innerHTML = teams
 }

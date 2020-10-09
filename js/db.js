@@ -1,20 +1,20 @@
-var dbPromised = idb.open("football-scorer", 1, function (upgradeDb) {
-    var articlesObjectStore = upgradeDb.createObjectStore("competitions", {
-        keyPath: "ID"
+const dbPromised = idb.open("football-scorer", 1, upgradeDb => {
+    const articlesObjectStore = upgradeDb.createObjectStore("competitions", {
+        keyPath: "id"
     });
     articlesObjectStore.createIndex("post_name", "post_name", { unique: false });
 });
 
-function saveForLater(competition) {
+const getYourData = () => {
     dbPromised
-        .then(function (db) {
+        .then(db => {
             var tx = db.transaction("competitions", "readwrite");
             var store = tx.objectStore("competitions");
             console.log(competition);
             store.add(competition.result);
             return tx.complete;
         })
-        .then(function () {
+        .then( () => {
             console.log("Competition berhasil di simpan.");
         });
 }
