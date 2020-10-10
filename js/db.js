@@ -8,8 +8,8 @@ const dbPromised = idb.open("football-scorer", 1, upgradeDb => {
 const getYourData = () => {
     dbPromised
         .then(db => {
-            var tx = db.transaction("competitions", "readwrite");
-            var store = tx.objectStore("competitions");
+            const tx = db.transaction("competitions", "readwrite");
+            const store = tx.objectStore("competitions");
             console.log(competition);
             store.add(competition.result);
             return tx.complete;
@@ -22,9 +22,9 @@ const getYourData = () => {
 function getAll() {
     return new Promise(function (resolve, reject) {
         dbPromised
-            .then(function (db) {
-                var tx = db.transaction("competitions", "readonly");
-                var store = tx.objectStore("competitions");
+            .then(db => {
+                const tx = db.transaction("competitions", "readonly");
+                const store = tx.objectStore("competitions");
                 return store.getAll();
             })
             .then(function (competitions) {
@@ -32,16 +32,17 @@ function getAll() {
             });
     });
 }
-// function getById(id) {
-//     return new Promise(function (resolve, reject) {
-//         dbPromised
-//             .then(function (db) {
-//                 var tx = db.transaction("competitions", "readonly");
-//                 var store = tx.objectStore("competitions");
-//                 return store.get(id);
-//             })
-//             .then(function (competitions) {
-//                 resolve(competitions);
-//             });
-//     });
-// }
+
+function getClubByid(id) {
+    return new Promise(function (resolve, reject) {
+        dbPromised
+            .then(function (db) {
+                var tx = db.transaction("competitions", "readonly");
+                var store = tx.objectStore("competitions");
+                return store.get(id);
+            })
+            .then(function (competitions) {
+                resolve(competitions);
+            });
+    });
+}

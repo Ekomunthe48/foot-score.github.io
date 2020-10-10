@@ -1,11 +1,10 @@
-var base_url = "https://api.football-data.org/v2/";
-var api_key = "9620be29cf5342b7b0762abb3142c6d4"
+const base_url = "https://api.football-data.org/v2/";
+const api_key = "9620be29cf5342b7b0762abb3142c6d4"
 
 // Table UCL
-const ucl_id = 2001
+const sa_id = 2019
 
-const competitionUcl = `${base_url}competitions/${ucl_id}/standings?standingType=TOTAL`
-const clubList = `${base_url}competitions/${ucl_id}/teams`
+const competitionUcl = `${base_url}competitions/${sa_id}/`
 
 const fetchApi = url => {
   return fetch(url, {
@@ -27,34 +26,11 @@ const fetchApi = url => {
     })
 }
 
-function getAllStandings() {
-  if ("caches" in window) {
-    caches.match(competitionUcl).then(response => {
-      if (response) {
-        response.json().then(data => {
-          console.log("Competition Data: " + data);
-          showStanding(data);
-        })
-      }
-    })
-  }
-  fetchApi(competitionUcl)
-    .then(data => {
-      console.log(data)
-      showStanding(data);
-    })
-    .catch(error => {
-      console.log(error)
-    })
-}
-
 const showStanding = (data) => {
   let standings = "";
   let standingElement = document.getElementById("competitions");
-  for (let i = 0; i < 8; i++) {
-    data.standings[i].table.map(standing => {
-      standings += `
-          
+  data.standings[0].table.forEach(function (standing) {
+    standings += `
                 <tr>
                   <td>${standing.position}</td>
                   <td><img src="${standing.team.crestUrl.replace(/^http:\/\//i, 'https://')}" width="30px" alt="badge"/>
@@ -70,8 +46,7 @@ const showStanding = (data) => {
                   <td>${standing.form}</td>
                 </tr>
         `
-    })
-  }
+  })
   standingElement.innerHTML = ` 
     <div class="card">
           <table class="striped responsive-table">
@@ -98,47 +73,22 @@ const showStanding = (data) => {
       `
 }
 
-const getClubList = () => {
+function getAllStandings() {
   if ("caches" in window) {
-    caches.match(clubList).then(response => {
+    caches.match(competitionUcl + "standings").then(response => {
       if (response) {
         response.json().then(data => {
-          console.log("Club list: " + data);
-          showClubList(data);
+          console.log("Competition Data: " + data);
+          showStanding(data);
         })
       }
     })
   }
-  fetchApi(clubList)
-  .then(data => {
-    console.log(data)
-    showClubList(data);
-  })
-  .catch(error => {
-    console.log(error)
-  })
-}
-
-const showClubList = (data) => {
-  let teams = "";
-  let teamsElement = document.getElementById("club");
-  data.teams.id.map(team => {
-      teams += `
-      <div class="card">
-        <a href="./club.html?id=${team.id}">
-          <div class="card-image waves-effect waves-block waves-light">
-            <img src="${team.crestUrl.replace(/^http:\/\//i, 'https://')}" />
-          </div>
-        </a>
-        <div class="card-content">
-          <span class="card-title center">${team.name}</span>
-          <p>${team.shortName}</p>
-          <p>${team.founded}</p>
-          <p>${team.clubColors}</p>
-          <p>${team.venue}</p>
-        </div>
-      </div>
-      `
+  fetchApi(competitionUcl + "standings")
+    .then(data => {
+      showStanding(data);
     })
-  teamsElement.innerHTML = teams
+    .catch(error => {
+      console.log(error)
+    })
 }

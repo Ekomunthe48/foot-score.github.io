@@ -43,9 +43,13 @@ document.addEventListener("DOMContentLoaded", function () {
       xhttp.onreadystatechange = function () {
           if (this.readyState === 4) {
               var content = document.querySelector("#body-content");
+              if (page === "home") {
+                getAllStandings()
+              } else if (page === "club") {
+                getAllClubs()
+              }
               if (this.status === 200) {
                   content.innerHTML = xhttp.responseText;
-                  getAllStandings()
               } else if (this.status === 404) {
                   content.innerHTML = "<p>Halaman tidak ditemukan.</p>";
               } else {
