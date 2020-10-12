@@ -3,12 +3,13 @@ var urlsToCache = [
         "/",
         "/nav.html",
         "/index.html",
+        "/detail.html",
         "/pages/home.html",
         "/pages/club.html",
-        "/pages/player.html",
         "/css/index.css",
         "/css/materialize.min.css",
         "/css/navi.css",
+        "/css/clubs.css",
         "/js/materialize.min.js",
         "/js/nav.js",
         "/js/sw.js",
@@ -16,11 +17,11 @@ var urlsToCache = [
         "/js/db.js",
         "/js/idb.js",
         "/manifest.json",
-        "/service-worker.js",
         "https://fonts.googleapis.com/css2?family=Kanit:wght@500&display=swap",
         "https://fonts.googleapis.com/icon?family=Material+Icons",
         "https://fonts.gstatic.com/s/materialicons/v55/flUhRq6tzZclQEJ-Vdg-IuiaDsNcIhQ8tQ.woff2",
         "https://fonts.gstatic.com/s/kanit/v7/nKKU-Go6G5tXcr5mOBWnVaFrNlJz.woff2",
+        "icon.png"
 
 ];
 

@@ -1,8 +1,8 @@
-const base_url = "https://api.football-data.org/v2/";
+let base_url = "https://api.football-data.org/v2/";
 const api_key = "9620be29cf5342b7b0762abb3142c6d4"
 
 // Table UCL
-const sa_id = 2019
+const sa_id = 2021
 
 const competitionUcl = `${base_url}competitions/${sa_id}/`
 
