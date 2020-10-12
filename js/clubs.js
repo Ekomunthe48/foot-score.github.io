@@ -44,12 +44,12 @@ function getAllClubs() {
 function detailClub(data) {
   let clubs = ""
   let clubsElement = document.getElementById("body-content")
-  clubs = `<div class="card large">
-              <div class="card-image waves-effect waves-block waves-light">
-                  <img class="activator" src="${data.crestUrl}" width="100%">
+  clubs = `
+            <div class="card" style="margin-top: 30px;">
+              <div class="card-image waves-effect waves-block waves-light" center>
+                  <img class="activator" src="${data.crestUrl}" width="100%" style="max-width: 500px;">
               </div>
               <div class="card-content">
-                  div.
                   <h3>${data.name}</h3>
                   <p>Founded      : ${data.founded}</p>
                   <p>Website      : ${data.website}</p>
@@ -66,13 +66,10 @@ function detailClub(data) {
 const teamDetail = `${base_url}teams/`
 
 function getDetailClub(data) {
-  let idTeams = "";
-  data.teams.forEach(function (idTeam) {
-    idTeams = idTeam.id
-  })
-
+  var urlParams = new URLSearchParams(window.location.search);
+  let idParam = urlParams.get("id");
   if ("caches" in window) {
-    caches.match(teamDetail + idTeams).then(response => {
+    caches.match(teamDetail + idParam).then(response => {
       if (response) {
         response.json().then(data => {
           console.log("Club Data: " + data);
@@ -81,7 +78,7 @@ function getDetailClub(data) {
       }
     })
   }
-  fetchApi(teamDetail + idTeams)
+  fetchApi(teamDetail + idParam)
     .then(data => {
       console.log(data)
       detailClub(data);

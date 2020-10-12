@@ -42,6 +42,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 getAllStandings()
               } else if (page === "club") {
                 getAllClubs()
+              } else if (page === "fixtures") {
+                getAllMatches()
               }
               if (this.status === 200) {
                   content.innerHTML = xhttp.responseText;
