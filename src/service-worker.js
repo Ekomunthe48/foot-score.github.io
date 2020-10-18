@@ -1,4 +1,4 @@
-const CACHE_NAME = "footballpwa-v1.0.2";
+const CACHE_NAME = "footballpwa-v1.0.4";
 var urlsToCache = [
         "/",
         "/nav.html",
@@ -16,13 +16,14 @@ var urlsToCache = [
         "/js/standings.js",
         "/js/db.js",
         "/js/idb.js",
+        "/js/clubs.js",
+        "/js/fixtures.js",
         "/manifest.json",
         "https://fonts.googleapis.com/css2?family=Kanit:wght@500&display=swap",
         "https://fonts.googleapis.com/icon?family=Material+Icons",
         "https://fonts.gstatic.com/s/materialicons/v55/flUhRq6tzZclQEJ-Vdg-IuiaDsNcIhQ8tQ.woff2",
         "https://fonts.gstatic.com/s/kanit/v7/nKKU-Go6G5tXcr5mOBWnVaFrNlJz.woff2",
-        "icon.png"
-
+        "/icon.png"
 ];
 
 self.addEventListener("install", function (event) {
