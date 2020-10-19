@@ -1,10 +1,32 @@
-import { fetchApi, competitionUcl } from './fetchApi'
+import { fetchApi, competitionUcl } from '../source/fetchApi';
+import { showLoader, hideLoader } from './preloader';
 
 export default function standings() {
-  let standingElement = document.getElementById("competitions");
+  const standingElement = document.getElementById('competitions');
+  function getAllStandings() {
+    showLoader();
+    if ('caches' in window) {
+      console.log('getting your data from system');
+      caches.match(`${competitionUcl}standings`).then((response) => {
+        if (response) {
+          response.json().then((data) => {
+            console.log(`Competition Data: ${data}`);
+            showStanding(data);
+          });
+        }
+      });
+    }
+    fetchApi(`${competitionUcl}standings`)
+      .then((data) => {
+        showStanding(data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
   const showStanding = (data) => {
-    let standings = "";
-    data.standings[0].table.forEach(function (standing) {
+    let standings = '';
+    data.standings[0].table.forEach((standing) => {
       standings += `
                   <tr>
                     <td>${standing.position}</td>
@@ -20,8 +42,8 @@ export default function standings() {
                     <td>${standing.points}</td>
                     <td>${standing.form}</td>
                   </tr>
-          `
-    })
+          `;
+    });
     standingElement.innerHTML = ` 
       <div class="card">
             <table class="striped responsive-table">
@@ -45,28 +67,8 @@ export default function standings() {
                     ${standings}
                 </tbody>
               </table>
-        </div> 
-        `
-  }
-  
-  function getAllStandings() {
-    if ("caches" in window) {
-      caches.match(competitionUcl + "standings").then(response => {
-        if (response) {
-          response.json().then(data => {
-            console.log("Competition Data: " + data);
-            showStanding(data);
-          })
-        }
-      })
-    }
-    fetchApi(competitionUcl + "standings")
-      .then(data => {
-        showStanding(data);
-      })
-      .catch(error => {
-        console.log(error)
-      })
-  }
-  getAllStandings()  
+        </div>`;
+    hideLoader();
+  };
+  getAllStandings();
 }

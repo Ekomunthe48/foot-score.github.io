@@ -1,3 +1,20 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    font-family: 'Kanit', sans-serif;
+}
+.brand-logo{
+    color: #DAA520 !important;
+}
+
+.sidenav-trigger {
+    color: #DAA520;
+}
+
 #teams {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -7,6 +24,14 @@
 
 .center-webkit {
     text-align: center !important;
+}
+
+.nav-color {
+    color: #DAA520 !important;
+}
+
+.icon {
+    color: #DAA520 !important;
 }
 
 @media only screen and (max-width: 992px) {
@@ -22,3 +47,5 @@
         grid-template-columns: repeat(1, 1fr);
     }
 }
+
+

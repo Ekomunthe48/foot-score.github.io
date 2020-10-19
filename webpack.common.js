@@ -1,6 +1,7 @@
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const WebpackPwaManifest = require('webpack-pwa-manifest');
 const path = require('path');
 
 module.exports = {
@@ -34,15 +35,42 @@ module.exports = {
     new CopyWebpackPlugin({
       patterns: [
         {
-          from: path.resolve(__dirname, './src/'),
+          from: path.resolve(__dirname, './src/assets/'),
           to: path.resolve(__dirname, 'dist'),
         },
         {
-          from: path.resolve(__dirname, './src/'),
+          from: path.resolve(__dirname, './src/pages/'),
           to: path.resolve(__dirname, 'dist'),
         },
       ],
     }),
     new MiniCssExtractPlugin({ filename: '[name].[contentHash].css' }),
+    new WebpackPwaManifest({
+      name: 'Football Score',
+      short_name: 'FootScore',
+      description: 'Your Daily News about Football',
+      start_url: '/index.html',
+      display: 'standalone',
+      background_color: '#000000',
+      theme_color: '#ffac41',
+      crossorigin: 'use-credentials',
+      icons: [
+        {
+          src: path.resolve(__dirname, 'src/assets/icon.png'),
+          sizes: [180, 192, 256, 384, 512],
+          type: 'image/png',
+          purpose: 'any maskable',
+          destination: path.join('images', 'icon'),
+        },
+        {
+          src: path.resolve(__dirname, 'src/assets/icon.png'),
+          sizes: [180, 192, 512],
+          type: 'image/png',
+          purpose: 'any maskable',
+          destination: path.join('images', 'ios'),
+          ios: true,
+        },
+      ],
+    }),
   ],
 };

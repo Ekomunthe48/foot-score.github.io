@@ -1,70 +1,61 @@
-const CACHE_NAME = "footballpwa-v1.0.4";
-var urlsToCache = [
-        "/",
-        "/nav.html",
-        "/index.html",
-        "/detail.html",
-        "/pages/home.html",
-        "/pages/club.html",
-        "/css/index.css",
-        "/css/materialize.min.css",
-        "/css/navi.css",
-        "/css/clubs.css",
-        "/js/materialize.min.js",
-        "/js/nav.js",
-        "/js/sw.js",
-        "/js/standings.js",
-        "/js/db.js",
-        "/js/idb.js",
-        "/js/clubs.js",
-        "/js/fixtures.js",
-        "/manifest.json",
-        "https://fonts.googleapis.com/css2?family=Kanit:wght@500&display=swap",
-        "https://fonts.googleapis.com/icon?family=Material+Icons",
-        "https://fonts.gstatic.com/s/materialicons/v55/flUhRq6tzZclQEJ-Vdg-IuiaDsNcIhQ8tQ.woff2",
-        "https://fonts.gstatic.com/s/kanit/v7/nKKU-Go6G5tXcr5mOBWnVaFrNlJz.woff2",
-        "/icon.png"
+/* eslint-disable array-callback-return */
+const CACHE_NAME = 'footballpwa-v1.0.4';
+const urlsToCache = [
+  '/',
+  '/index.html',
+  '/pages/nav/nav.html',
+  '/pages/club.html',
+  '/pages/home.html',
+  '/css/index.css',
+  '/scripts/view/nav.js',
+  '/scripts/source/sw.js',
+  '/scripts/source/fetchApi.js',
+  '/scripts/component/standings.js',
+  '/scripts/component/db.js',
+  '/scripts/component/clubs.js',
+  '/scripts/component/preloader.js',
+  'https://fonts.googleapis.com/css2?family=Kanit:wght@500&display=swap',
+  'https://fonts.googleapis.com/icon?family=Material+Icons',
+  'https://fonts.gstatic.com/s/materialicons/v55/flUhRq6tzZclQEJ-Vdg-IuiaDsNcIhQ8tQ.woff2',
+  'https://fonts.gstatic.com/s/kanit/v7/nKKU-Go6G5tXcr5mOBWnVaFrNlJz.woff2',
+  '/assets/icon.png',
 ];
 
-self.addEventListener("install", function (event) {
+self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then(function (cache) {
-      return cache.addAll(urlsToCache);
-    })
+    caches.open(CACHE_NAME).then((cache) => cache.addAll(urlsToCache)),
   );
 });
 
-self.addEventListener("activate", function (event) {
+self.addEventListener('activate', (event) => {
   event.waitUntil(
-      caches.keys().then(function(cacheNames) {
-          return Promise.all(
-              cacheNames.map(function(cacheName) {
-                  if (cacheName !== CACHE_NAME) {
-                      console.log("ServiceWorker: cache " + cacheName + " dihapus");
-                      return caches.delete(cacheName);
-                  }
-              })
-          );
-      })
+    caches.keys().then((cacheNames) => Promise.all(
+      // eslint-disable-next-line array-callback-return
+      // eslint-disable-next-line consistent-return
+      cacheNames.map((cacheName) => {
+        if (cacheName !== CACHE_NAME) {
+          console.log(`ServiceWorker: cache ${cacheName} dihapus`);
+          return caches.delete(cacheName);
+        }
+      }),
+    )),
   );
 });
 
-self.addEventListener("fetch", function(event) {
-  const base_url = "https://api.football-data.org/v2/";
+self.addEventListener('fetch', (event) => {
+  // eslint-disable-next-line camelcase
+  const base_url = 'https://api.football-data.org/v2/';
   if (event.request.url.indexOf(base_url) > -1) {
-      event.respondWith(
-          caches.open(CACHE_NAME).then(function(cache) {
-              return fetch(event.request).then(function(response) {
-                  cache.put(event.request.url, response.clone());
-                  return response;
-              })
-          })
-      );
+    event.respondWith(
+      caches.open(CACHE_NAME).then((cache) => fetch(event.request).then((response) => {
+        cache.put(event.request.url, response.clone());
+        return response;
+      })),
+    );
   } else {
-      event.respondWith(
-          caches.match(event.request, {ignoreSearch: true}).then(function(response) {
-              return response || fetch (event.request);
-          })
-      )
+    event.respondWith(
+      // eslint-disable-next-line max-len
+      caches.match(event.request, { ignoreSearch: true }).then((response) => response || fetch(event.request)),
+    );
   }
 });
