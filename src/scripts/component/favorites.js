@@ -80,7 +80,7 @@ export default function favorites() {
       });
     }).catch((e) => {
       swal({
-        title: `Please Your Network.${e}`,
+        title: `Please Check Your Network.${e}`,
       });
     });
   }

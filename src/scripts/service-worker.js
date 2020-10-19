@@ -8,7 +8,7 @@ const urlsToCache = [
   '/pages/home.html',
   '/css/index.css',
   '/scripts/view/nav.js',
-  '/scripts/source/sw.js',
+  '/scripts/source/swScript.js',
   '/scripts/source/fetchApi.js',
   '/scripts/component/standings.js',
   '/scripts/component/db.js',
