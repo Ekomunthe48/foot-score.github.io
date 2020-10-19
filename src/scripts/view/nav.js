@@ -1,6 +1,7 @@
 /* eslint-disable no-var */
 import clubs from '../component/clubs';
 import standings from '../component/standings';
+import favorites from '../component/favorites';
 
 const main = () => {
   document.addEventListener('DOMContentLoaded', () => {
@@ -48,6 +49,7 @@ const main = () => {
 
           if (page === 'home') standings();
           if (page === 'club') clubs();
+          if (page === 'favorite') favorites();
 
           if (this.status === 200) {
             content.innerHTML = xhttp.responseText;

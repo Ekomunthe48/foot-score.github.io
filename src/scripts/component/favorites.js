@@ -15,10 +15,10 @@ export default function favorites() {
     document.getElementById('delete').addEventListener('click', () => {
       deletesAllFavoriteTeam();
     });
-    renderFavoriteList(); // render favorited teams
+    renderFavorite(); // render favorited teams
     hideLoader();
   };
-  function renderFavoriteList() {
+  function renderFavorite() {
     dbPromise.then((db) => {
       const tx = db.transaction('clubs', 'readwrite').objectStore('clubs');
       return tx.getAll() || [];
@@ -33,7 +33,7 @@ export default function favorites() {
             _favorite += `
                 <div class="card" >
                     <div class="card-image waves-effect waves-block waves-light">
-                        <img class="lazyload" src="${team.crestUrl.replace(/^http:\/\//i, 'https://')}" style="padding: 16px; margin: auto; height: 135px; width: 135px">
+                        <img class="lazyload" src="${team.crestUrl}" style="padding: 16px; margin: auto; height: 135px; width: 135px">
                         <a class="btn-floating btn-medium halfway-fab waves-effect waves-light red remove" data-id="${team.id}">
                             <i id="card-${team.id}" class="large material-icons">delete</i>
                         </a>
@@ -74,13 +74,13 @@ export default function favorites() {
       element.parentNode.removeChild(element);
       swal({
         title: 'succes!',
-        text: `berhasil menghapus ${teamObject.name} dari Team Favorit.`,
+        text: `Success Delete ${teamObject.name} From Your Favorite.`,
         icon: 'success',
         button: 'Ok!',
       });
     }).catch((e) => {
       swal({
-        title: `kesalahan!, cek jaringan anda.${e}`,
+        title: `Please Your Network.${e}`,
       });
     });
   }

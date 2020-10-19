@@ -33,8 +33,8 @@ export default function clubs() {
 
     dbPromise.then((db) => {
       const tx = db.transaction('clubs', 'readwrite').objectStore('clubs');
-      const txFTeams = tx.getAll() || [];
-      return txFTeams;
+      const txTeams = tx.getAll() || [];
+      return txTeams;
     })
       .then((team) => {
         showLoader();
@@ -94,7 +94,7 @@ export default function clubs() {
         element.parentNode.remove();
         swal({
           title: 'succes!',
-          text: `${teamObject.name} ditambahkan ke Team Favorit.`,
+          text: `${teamObject.name} Added into your favorite.`,
           icon: 'success',
           button: 'Ok!',
         });
