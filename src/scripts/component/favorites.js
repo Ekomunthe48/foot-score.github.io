@@ -63,7 +63,6 @@ export default function favorites() {
       });
   }
 
-  // <==delete one favorite==>
   function removeFavoriteTeam(teamId) {
     const teamObject = _dataTeams.filter((el) => el.id === parseInt(teamId))[0];
 
@@ -86,7 +85,6 @@ export default function favorites() {
     });
   }
 
-  // delete allFavorites
   function deletesAllFavoriteTeam() {
     dbPromise.then((db) => {
       const tx = db.transaction('teams', 'readwrite');
