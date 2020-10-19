@@ -2,6 +2,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
+const ServiceWorkerWebpackPlugin = require('service-worker-precache-webpack-plugin');
 const path = require('path');
 
 module.exports = {
@@ -72,5 +73,6 @@ module.exports = {
         },
       ],
     }),
+    new ServiceWorkerWebpackPlugin(),
   ],
 };

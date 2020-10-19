@@ -3,7 +3,7 @@ export default function Sw() {
     window.addEventListener('load', () => {
       // eslint-disable-next-line no-unused-expressions
       navigator.serviceWorker;
-      navigator.serviceWorker.register('../../service-worker.js')
+      navigator.serviceWorker.register('/service-worker.js')
         .then(() => {
           console.log('Pendaftaran ServiceWorker berhasil');
         })
