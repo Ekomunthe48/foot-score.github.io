@@ -1,5 +1,6 @@
 function showLoader() {
   const Content = document.getElementById('body-content');
+  const title = document.getElementById('headerTitle');
   Content.innerHTML = '';
   title.innerHTML = '';
   const html = `<div style="padding: 35% 20%; height: 50%;">

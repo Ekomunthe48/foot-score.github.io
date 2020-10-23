@@ -3,7 +3,8 @@ import { showLoader, hideLoader } from './preloader';
 import dbPromise from './db';
 
 export default function favorites() {
-  const Content = document.getElementById('favs');
+  const Content = document.getElementById('body-content');
+  const title = document.getElementById('headerTitle');
   let _dataTeams = null;
 
   const loadFavoriteTeams = () => {
@@ -12,6 +13,7 @@ export default function favorites() {
           <a class="waves-effect waves-light btn-small red darken-4" id="delete">Clear All Your Favorites</a>
           <div class="row" id="yourFavorite" style="margin-top: 16px;"></div>`;
     Content.innerHTML = html;
+    title.innerHTML = 'My Favorites Teams';
     document.getElementById('delete').addEventListener('click', () => {
       deletesAllFavoriteTeam();
     });
@@ -31,26 +33,28 @@ export default function favorites() {
           // eslint-disable-next-line no-shadow
           team.forEach((team) => {
             _favorite += `
-                <div class="card" >
+            <div class="col s12 m6 l4">
+                <div class="card" id="card-${team.id}" >
                     <div class="card-image waves-effect waves-block waves-light">
                         <img class="lazyload" src="${team.crestUrl}" style="padding: 16px; margin: auto; height: 135px; width: 135px">
                         <a class="btn-floating btn-medium halfway-fab waves-effect waves-light red remove" data-id="${team.id}">
                             <i id="card-${team.id}" class="large material-icons">delete</i>
                         </a>
                     </div>
-                <div class="card-content">
-                    <h5>${team.name}</h5>
-                    <p>Founded  : ${team.founded}</p>
-                    <p>Colors   : ${team.clubColors}</p>
-                    <p>Stadium  : ${team.venue}</p>
-                    <a href="${team.website}">${team.website}</a>
+                  <div class="card-content">
+                    <div class="center flow-text"><strong>${team.name}</strong></div>
+                    <div class="center"><strong>Founded:</strong> ${team.founded}</div>
+                    <div class="center"><strong>Color: </strong>${team.clubColors}</div>
+                    <div class="center"><strong>Stadium: </strong>${team.venue}</div>
+                    <div class="center"><a href="${team.website}" target="_blank"><strong>Website : </strong>${team.website}</a></div>
+                  </div>
                 </div>
-                </div>`;
+            </div>`;
 
             listFavorite.innerHTML = _favorite;
             const removeFavorite = document.querySelectorAll('.remove');
-            removeFavorite.forEach((el) => {
-              el.addEventListener('click', (e) => {
+            removeFavorite.forEach((element) => {
+              element.addEventListener('click', (e) => {
                 const getId = e.target.parentElement.dataset.id;
                 removeFavoriteTeam(getId);
               });
@@ -87,8 +91,8 @@ export default function favorites() {
 
   function deletesAllFavoriteTeam() {
     dbPromise.then((db) => {
-      const tx = db.transaction('teams', 'readwrite');
-      const store = tx.objectStore('teams').clear();
+      const tx = db.transaction('clubs', 'readwrite');
+      const store = tx.objectStore('clubs').clear();
       return store;
     })
       .then(() => {
@@ -98,4 +102,5 @@ export default function favorites() {
         });
       });
   }
+  loadFavoriteTeams();
 }

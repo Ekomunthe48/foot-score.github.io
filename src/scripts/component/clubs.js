@@ -4,7 +4,8 @@ import { showLoader, hideLoader } from './preloader';
 import dbPromise from './db';
 
 let teamsData = null;
-const teamElement = document.getElementById('teams');
+const teamElement = document.getElementById('body-content');
+const title = document.getElementById('headerTitle');
 
 export default function clubs() {
   const getAllClubs = () => {
@@ -29,6 +30,7 @@ export default function clubs() {
 
   function showClub(data) {
     let teams = '';
+    const renderTarget = teamElement;
     teamsData = data;
 
     dbPromise.then((db) => {
@@ -51,8 +53,8 @@ export default function clubs() {
         }
         data.teams.forEach((team) => {
           teams += `
-    
-                <div class="card" >
+          <div class="col s12 m6 l4">
+                <div class="card" style="height: 22rem;">
                     <div class="card-image waves-effect waves-block waves-light">
                         <img class="lazyload" src="${team.crestUrl.replace(/^http:\/\//i, 'https://')}" style="padding: 16px; margin: auto; height: 135px; width: 135px">
                         ${renderButton(team.id)}
@@ -64,8 +66,10 @@ export default function clubs() {
                     <p>Stadium  : ${team.venue}</p>
                     <a href="${team.website}">${team.website}</a>
                   </div>
-                </div>`;
-          teamElement.innerHTML = teams;
+                </div>
+          </div>`;
+          title.innerHTML = 'English Premiere League Teams';
+          renderTarget.innerHTML = teams;
           hideLoader();
           const addFavorite = document.querySelectorAll('.addFavorite');
 

@@ -2,7 +2,8 @@ import { fetchApi, competitionUcl } from '../source/fetchApi';
 import { showLoader, hideLoader } from './preloader';
 
 export default function standings() {
-  const standingElement = document.getElementById('competitions');
+  const standingElement = document.getElementById('body-content');
+  const title = document.getElementById('headerTitle');
   function getAllStandings() {
     showLoader();
     if ('caches' in window) {
@@ -68,6 +69,7 @@ export default function standings() {
                 </tbody>
               </table>
         </div>`;
+    title.innerHTML = 'English Premiere League Standings';
     hideLoader();
   };
   getAllStandings();

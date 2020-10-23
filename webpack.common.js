@@ -2,7 +2,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
-const ServiceWorkerWebpackPlugin = require('service-worker-precache-webpack-plugin');
+const ServiceWorkerWebpackPlugin = require('serviceworker-webpack-plugin');
 const path = require('path');
 
 module.exports = {
@@ -30,7 +30,7 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: path.resolve(__dirname, './src/index.html'),
+      template: path.resolve(__dirname, './src/pages/index.html'),
       filename: 'index.html',
     }),
     new CopyWebpackPlugin({
@@ -40,7 +40,7 @@ module.exports = {
           to: path.resolve(__dirname, 'dist'),
         },
         {
-          from: path.resolve(__dirname, './src/pages/'),
+          from: path.resolve(__dirname, './src/pages/nav/'),
           to: path.resolve(__dirname, 'dist'),
         },
       ],
@@ -55,6 +55,7 @@ module.exports = {
       background_color: '#000000',
       theme_color: '#ffac41',
       crossorigin: 'use-credentials',
+      gcm_sender_id: '489407451958',
       icons: [
         {
           src: path.resolve(__dirname, 'src/assets/icon.png'),
