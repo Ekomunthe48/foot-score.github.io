@@ -74,6 +74,9 @@ module.exports = {
         },
       ],
     }),
-    new ServiceWorkerWebpackPlugin(),
+    new ServiceWorkerWebpackPlugin({
+      entry: path.join(__dirname, 'src/scripts/sw.js'),
+      filename: `sw.${process.env.APP_HASH}.js`,
+    }),
   ],
 };

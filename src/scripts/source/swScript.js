@@ -105,7 +105,7 @@ export default function Sw() {
     window.addEventListener('load', () => {
       // eslint-disable-next-line no-unused-expressions
       navigator.serviceWorker;
-      navigator.serviceWorker.register('/service-worker.js')
+      navigator.serviceWorker.register('/sw.js')
         .then((swReg) => {
           console.log('Pendaftaran ServiceWorker berhasil');
           swRegi = swReg;
