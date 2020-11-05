@@ -1,5 +1,7 @@
+import { Workbox } from 'workbox-window';
+
 export default function Sw() {
-  const appServerPublicKey = 'BHmbXjtJ69fkVrCS8EhWI9vMc79xrfTDwIyw9JWB7sf9eBv0gXhTe8Cdw6jtsXphspa0H27z5VIAbAco77f1hEY';
+  const appServerPublicKey = 'BGskf64ORP1oZC9MRVEjnZa1ExXn-MG9-4TerpLDwyeGm3KEKny0g-7Yp6j1rkES64qlOCxm8X9EoF2dgKgL7Bs';
   const pushButton = document.querySelector('.js-push-btn');
   let isSubs = false;
   let swRegi = null;
@@ -56,9 +58,9 @@ export default function Sw() {
       return;
     }
     if (isSubs) {
-      pushButton.textContent = 'off';
+      pushButton.textContent = 'Turn off subscribes';
     } else {
-      pushButton.textContent = 'on';
+      pushButton.textContent = 'Turn on subscribes';
     }
     pushButton.disabled = false;
   }
@@ -67,7 +69,7 @@ export default function Sw() {
     const appServerKey = urlB64ToUint8Array(appServerPublicKey);
     swRegi.pushManager.subscribe({
       userVisibleOnly: true,
-      appServerKey,
+      applicationServerKey: appServerKey,
     })
       .then((subscription) => {
         console.log('User is subscribed:', subscription);
@@ -102,19 +104,19 @@ export default function Sw() {
   }
 
   if ('serviceWorker' in navigator && 'PushManager' in window) {
-    window.addEventListener('load', () => {
-      // eslint-disable-next-line no-unused-expressions
-      navigator.serviceWorker;
-      navigator.serviceWorker.register('/sw.js')
-        .then((swReg) => {
-          console.log('Pendaftaran ServiceWorker berhasil');
-          swRegi = swReg;
-          initUI();
-        })
-        .catch((error) => {
-          console.log('Pendaftaran ServiceWorker gagal', error);
-        });
-    });
+    console.log('Service Worker and Push is supported');
+    const workbox = new Workbox('./service-worker.js');
+    workbox.register();
+
+    navigator.serviceWorker.register('./service-worker.js')
+      .then((swReg) => {
+        console.log('Pendaftaran ServiceWorker berhasil', swReg);
+        swRegi = swReg;
+        initUI();
+      })
+      .catch((error) => {
+        console.log('Pendaftaran ServiceWorker gagal', error);
+      });
   } else {
     console.log('ServiceWorker belum didukung browser ini.');
     console.warn('Push messaging is not supported');

@@ -2,7 +2,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
-const ServiceWorkerWebpackPlugin = require('serviceworker-webpack-plugin');
+const { InjectManifest } = require('workbox-webpack-plugin');
 const path = require('path');
 
 module.exports = {
@@ -55,7 +55,6 @@ module.exports = {
       background_color: '#000000',
       theme_color: '#ffac41',
       crossorigin: 'use-credentials',
-      gcm_sender_id: '489407451958',
       icons: [
         {
           src: path.resolve(__dirname, 'src/assets/icon.png'),
@@ -73,10 +72,10 @@ module.exports = {
           ios: true,
         },
       ],
+
     }),
-    new ServiceWorkerWebpackPlugin({
-      entry: path.join(__dirname, 'src/scripts/sw.js'),
-      filename: `sw.${process.env.APP_HASH}.js`,
+    new InjectManifest({
+      swSrc: path.resolve(__dirname, 'src/scripts/service-worker.js'),
     }),
   ],
 };
